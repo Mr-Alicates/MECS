@@ -49,7 +49,6 @@
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
-    <Reference Include="System.Globalization" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -61,8 +60,8 @@
     <Compile Include="Communication\SerialComm.cs" />
     <Compile Include="Contracts\IEngraver.cs" />
     <Compile Include="Contracts\ISerialComm.cs" />
-    <Compile Include="Engraver.cs" />
-    <Compile Include="Model\MovementType.cs" />
+    <Compile Include="Engraving\NejeDk8KzConstants.cs" />
+    <Compile Include="Engraving\NejeDk8KzEngraver.cs" />
     <Compile Include="IoC\CoreUnityExtension.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

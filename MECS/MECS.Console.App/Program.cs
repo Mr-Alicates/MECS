@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using MECS.Core.Contracts;
 using MECS.Core.IoC;
-using MECS.Core.Model;
 using Microsoft.Practices.Unity;
 
 namespace MECS.Console.App
@@ -19,11 +19,11 @@ namespace MECS.Console.App
 
             using (var engraver = container.Resolve<IEngraver>())
             {
-                engraver.Connect();
+                engraver.Connect(ConfigurationManager.AppSettings["CommPort"]);
                 
-                engraver.SendImage("C:\\Users\\Paw\\Desktop\\Grabadora\\Test500x500.bmp");
+                engraver.SendImage(ConfigurationManager.AppSettings["PictureToEngrave"]);
 
-                engraver.SetBurningTime(7);
+                engraver.SetBurningTime(20);
 
                 engraver.Start();
             }
