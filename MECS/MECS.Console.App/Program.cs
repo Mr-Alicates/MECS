@@ -17,38 +17,15 @@ namespace MECS.Console.App
         {
             IUnityContainer container = BuildContainer();
 
-            var engraver = container.Resolve<IEngraver>();
-
-            engraver.Connect();
-
-            var sleep = 100;
-
-            while(true)
+            using (var engraver = container.Resolve<IEngraver>())
             {
+                engraver.Connect();
+                
+                engraver.SendImage("C:\\Users\\Paw\\Desktop\\Grabadora\\Test500x500.bmp");
 
-                for (int j = 0; j < 10; j++)
-                {
-                    engraver.Move(MovementType.Up);
-                    Thread.Sleep(sleep);
-                }
+                engraver.SetBurningTime(7);
 
-                for (int j = 0; j < 10; j++)
-                {
-                    engraver.Move(MovementType.Left);
-                    Thread.Sleep(sleep);
-                }
-
-                for (int j = 0; j < 10; j++)
-                {
-                    engraver.Move(MovementType.Down);
-                    Thread.Sleep(sleep);
-                }
-
-                for (int j = 0; j < 10; j++)
-                {
-                    engraver.Move(MovementType.Right);
-                    Thread.Sleep(sleep);
-                }
+                engraver.Start();
             }
         }
 
