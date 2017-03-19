@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -61,7 +62,7 @@ namespace MECS.Core.Contracts
         /// Higher means deeper engraving or burning.
         /// </summary>
         /// <param name="intensity"></param>
-        void SetBurningTime(byte intensity);
+        void SetBurningTime(decimal intensity);
 
         /// <summary>
         /// This aborts whatever the machine was doing and restarts it.
@@ -89,5 +90,24 @@ namespace MECS.Core.Contracts
         /// </summary>
         /// <param name="pathToImage"></param>
         void SendImage(string pathToImage);
+
+        /// <summary>
+        /// This sends a new image to the machine memory. 
+        /// The image is rescaled and processed to the machine format.
+        /// </summary>
+        /// <param name="imageStream"></param>
+        void SendImage(Stream imageStream);
+
+        /// <summary>
+        /// This retrieves the minimum burning time of the engraver
+        /// </summary>
+        /// <returns></returns>
+        decimal GetMinimumBurningTime();
+
+        /// <summary>
+        /// This retrieves the maximum burning time of the engraver
+        /// </summary>
+        /// <returns></returns>
+        decimal GetMaximumBurningTime();
     }
 }

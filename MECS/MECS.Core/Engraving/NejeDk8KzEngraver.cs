@@ -158,22 +158,37 @@ namespace MECS.Core.Engraving
             return byteArray;
         }
 
-        public void SendImage(string pathToImage)
+        public void SendImage(Stream imageStream)
         {
             EraseImage();
 
-            byte[] image = GenerateImage(File.OpenRead(pathToImage));
+            byte[] image = GenerateImage(imageStream);
 
             _serialComm.Write(image);
             //This sleep seems necessary to allow the machine to process the image
             Thread.Sleep(NejeDk8KzConstants.SleepTime);
         }
 
-        public void SetBurningTime(byte intensity)
+        public void SendImage(string pathToImage)
+        {
+            SendImage(File.OpenRead(pathToImage));
+        }
+
+        public decimal GetMinimumBurningTime()
+        {
+            return NejeDk8KzConstants.MinimumIntensity;
+        }
+
+        public decimal GetMaximumBurningTime()
+        {
+            return NejeDk8KzConstants.MaximumIntensity;
+        }
+
+        public void SetBurningTime(decimal intensity)
         {
             intensity = Math.Max(NejeDk8KzConstants.MinimumIntensity, Math.Min(intensity, NejeDk8KzConstants.MaximumIntensity));
             
-            _serialComm.Write(intensity);
+            _serialComm.Write((byte) intensity);
         }
         
         public void Dispose()

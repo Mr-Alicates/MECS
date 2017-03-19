@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -56,7 +57,7 @@ namespace MECS.Core.Engraving
 
         }
 
-        public void SetBurningTime(byte intensity)
+        public void SetBurningTime(decimal intensity)
         {
 
         }
@@ -84,6 +85,20 @@ namespace MECS.Core.Engraving
         public void SendImage(string pathToImage)
         {
 
+        }
+
+        public void SendImage(Stream imageStream)
+        {
+        }
+
+        public decimal GetMinimumBurningTime()
+        {
+            return 1;
+        }
+
+        public decimal GetMaximumBurningTime()
+        {
+            return 100;
         }
     }
 }
