@@ -26,7 +26,7 @@ namespace MECS.Core.Engraving
         /// <summary>
         /// This is the time to wait after sending an erase command or an image
         /// </summary>
-        public const int SleepTime = 1500;
+        public const int SleepTime = 3000;
 
         #region ConnectionParameters
 
