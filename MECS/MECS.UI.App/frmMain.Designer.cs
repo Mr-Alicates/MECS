@@ -44,10 +44,19 @@
             this.NumBurningTime = new System.Windows.Forms.NumericUpDown();
             this.BtnSetBurningTime = new System.Windows.Forms.Button();
             this.GrpBurningTime = new System.Windows.Forms.GroupBox();
+            this.GrpEngravingControls = new System.Windows.Forms.GroupBox();
+            this.BtnLoadPicture = new System.Windows.Forms.Button();
+            this.BtnEngrave = new System.Windows.Forms.Button();
+            this.BtnEraseMachineMemory = new System.Windows.Forms.Button();
+            this.GrpPicture = new System.Windows.Forms.GroupBox();
+            this.PictureBox = new System.Windows.Forms.PictureBox();
             this.GrpConnection.SuspendLayout();
             this.GrpMovement.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NumBurningTime)).BeginInit();
             this.GrpBurningTime.SuspendLayout();
+            this.GrpEngravingControls.SuspendLayout();
+            this.GrpPicture.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.PictureBox)).BeginInit();
             this.SuspendLayout();
             // 
             // GrpConnection
@@ -58,7 +67,7 @@
             this.GrpConnection.Controls.Add(this.CmbAvailableDrivers);
             this.GrpConnection.Location = new System.Drawing.Point(12, 12);
             this.GrpConnection.Name = "GrpConnection";
-            this.GrpConnection.Size = new System.Drawing.Size(233, 134);
+            this.GrpConnection.Size = new System.Drawing.Size(220, 134);
             this.GrpConnection.TabIndex = 0;
             this.GrpConnection.TabStop = false;
             this.GrpConnection.Text = "Machine connection";
@@ -68,7 +77,7 @@
             this.BtnDisconnect.Enabled = false;
             this.BtnDisconnect.Location = new System.Drawing.Point(6, 102);
             this.BtnDisconnect.Name = "BtnDisconnect";
-            this.BtnDisconnect.Size = new System.Drawing.Size(221, 23);
+            this.BtnDisconnect.Size = new System.Drawing.Size(207, 23);
             this.BtnDisconnect.TabIndex = 1;
             this.BtnDisconnect.Text = "Disconnect";
             this.BtnDisconnect.UseVisualStyleBackColor = true;
@@ -78,7 +87,7 @@
             // 
             this.BtnConnect.Location = new System.Drawing.Point(6, 73);
             this.BtnConnect.Name = "BtnConnect";
-            this.BtnConnect.Size = new System.Drawing.Size(221, 23);
+            this.BtnConnect.Size = new System.Drawing.Size(207, 23);
             this.BtnConnect.TabIndex = 1;
             this.BtnConnect.Text = "Connect";
             this.BtnConnect.UseVisualStyleBackColor = true;
@@ -89,7 +98,7 @@
             this.CmbAvailablePorts.FormattingEnabled = true;
             this.CmbAvailablePorts.Location = new System.Drawing.Point(6, 46);
             this.CmbAvailablePorts.Name = "CmbAvailablePorts";
-            this.CmbAvailablePorts.Size = new System.Drawing.Size(221, 21);
+            this.CmbAvailablePorts.Size = new System.Drawing.Size(207, 21);
             this.CmbAvailablePorts.TabIndex = 2;
             this.CmbAvailablePorts.Text = "Select a port...";
             // 
@@ -98,7 +107,7 @@
             this.CmbAvailableDrivers.FormattingEnabled = true;
             this.CmbAvailableDrivers.Location = new System.Drawing.Point(6, 19);
             this.CmbAvailableDrivers.Name = "CmbAvailableDrivers";
-            this.CmbAvailableDrivers.Size = new System.Drawing.Size(221, 21);
+            this.CmbAvailableDrivers.Size = new System.Drawing.Size(207, 21);
             this.CmbAvailableDrivers.TabIndex = 1;
             this.CmbAvailableDrivers.Text = "Select a driver...";
             // 
@@ -112,16 +121,16 @@
             this.GrpMovement.Controls.Add(this.BtnMoveUp);
             this.GrpMovement.Controls.Add(this.BtnMoveToOrigin);
             this.GrpMovement.Enabled = false;
-            this.GrpMovement.Location = new System.Drawing.Point(18, 152);
+            this.GrpMovement.Location = new System.Drawing.Point(12, 152);
             this.GrpMovement.Name = "GrpMovement";
-            this.GrpMovement.Size = new System.Drawing.Size(221, 195);
+            this.GrpMovement.Size = new System.Drawing.Size(220, 195);
             this.GrpMovement.TabIndex = 0;
             this.GrpMovement.TabStop = false;
             this.GrpMovement.Text = "Movement controls";
             // 
             // BtnPreview
             // 
-            this.BtnPreview.Location = new System.Drawing.Point(150, 19);
+            this.BtnPreview.Location = new System.Drawing.Point(148, 19);
             this.BtnPreview.Name = "BtnPreview";
             this.BtnPreview.Size = new System.Drawing.Size(65, 51);
             this.BtnPreview.TabIndex = 0;
@@ -221,18 +230,85 @@
             this.GrpBurningTime.Controls.Add(this.BtnSetBurningTime);
             this.GrpBurningTime.Controls.Add(this.NumBurningTime);
             this.GrpBurningTime.Enabled = false;
-            this.GrpBurningTime.Location = new System.Drawing.Point(18, 353);
+            this.GrpBurningTime.Location = new System.Drawing.Point(12, 353);
             this.GrpBurningTime.Name = "GrpBurningTime";
-            this.GrpBurningTime.Size = new System.Drawing.Size(221, 79);
+            this.GrpBurningTime.Size = new System.Drawing.Size(220, 79);
             this.GrpBurningTime.TabIndex = 1;
             this.GrpBurningTime.TabStop = false;
             this.GrpBurningTime.Text = "Burning time controls";
+            // 
+            // GrpEngravingControls
+            // 
+            this.GrpEngravingControls.Controls.Add(this.BtnLoadPicture);
+            this.GrpEngravingControls.Controls.Add(this.BtnEngrave);
+            this.GrpEngravingControls.Controls.Add(this.BtnEraseMachineMemory);
+            this.GrpEngravingControls.Enabled = false;
+            this.GrpEngravingControls.Location = new System.Drawing.Point(12, 438);
+            this.GrpEngravingControls.Name = "GrpEngravingControls";
+            this.GrpEngravingControls.Size = new System.Drawing.Size(220, 101);
+            this.GrpEngravingControls.TabIndex = 3;
+            this.GrpEngravingControls.TabStop = false;
+            this.GrpEngravingControls.Text = "Engraving controls";
+            // 
+            // BtnLoadPicture
+            // 
+            this.BtnLoadPicture.Location = new System.Drawing.Point(6, 19);
+            this.BtnLoadPicture.Name = "BtnLoadPicture";
+            this.BtnLoadPicture.Size = new System.Drawing.Size(207, 23);
+            this.BtnLoadPicture.TabIndex = 3;
+            this.BtnLoadPicture.Text = "Load picture";
+            this.BtnLoadPicture.UseVisualStyleBackColor = true;
+            this.BtnLoadPicture.Click += new System.EventHandler(this.LoadPicture);
+            // 
+            // BtnEngrave
+            // 
+            this.BtnEngrave.Enabled = false;
+            this.BtnEngrave.Location = new System.Drawing.Point(115, 48);
+            this.BtnEngrave.Name = "BtnEngrave";
+            this.BtnEngrave.Size = new System.Drawing.Size(98, 45);
+            this.BtnEngrave.TabIndex = 1;
+            this.BtnEngrave.Text = "Engrave";
+            this.BtnEngrave.UseVisualStyleBackColor = true;
+            this.BtnEngrave.Click += new System.EventHandler(this.EngravePicture);
+            // 
+            // BtnEraseMachineMemory
+            // 
+            this.BtnEraseMachineMemory.Location = new System.Drawing.Point(6, 48);
+            this.BtnEraseMachineMemory.Name = "BtnEraseMachineMemory";
+            this.BtnEraseMachineMemory.Size = new System.Drawing.Size(94, 45);
+            this.BtnEraseMachineMemory.TabIndex = 1;
+            this.BtnEraseMachineMemory.Text = "Erase machine memory";
+            this.BtnEraseMachineMemory.UseVisualStyleBackColor = true;
+            this.BtnEraseMachineMemory.Click += new System.EventHandler(this.EraseMachineMemory);
+            // 
+            // GrpPicture
+            // 
+            this.GrpPicture.Controls.Add(this.PictureBox);
+            this.GrpPicture.Enabled = false;
+            this.GrpPicture.Location = new System.Drawing.Point(238, 12);
+            this.GrpPicture.Name = "GrpPicture";
+            this.GrpPicture.Size = new System.Drawing.Size(513, 527);
+            this.GrpPicture.TabIndex = 4;
+            this.GrpPicture.TabStop = false;
+            this.GrpPicture.Text = "Picture to engrave";
+            // 
+            // PictureBox
+            // 
+            this.PictureBox.Location = new System.Drawing.Point(6, 19);
+            this.PictureBox.MaximumSize = new System.Drawing.Size(500, 500);
+            this.PictureBox.MinimumSize = new System.Drawing.Size(500, 500);
+            this.PictureBox.Name = "PictureBox";
+            this.PictureBox.Size = new System.Drawing.Size(500, 500);
+            this.PictureBox.TabIndex = 0;
+            this.PictureBox.TabStop = false;
             // 
             // FrmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(962, 629);
+            this.ClientSize = new System.Drawing.Size(757, 542);
+            this.Controls.Add(this.GrpPicture);
+            this.Controls.Add(this.GrpEngravingControls);
             this.Controls.Add(this.GrpBurningTime);
             this.Controls.Add(this.GrpMovement);
             this.Controls.Add(this.GrpConnection);
@@ -243,6 +319,9 @@
             this.GrpMovement.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.NumBurningTime)).EndInit();
             this.GrpBurningTime.ResumeLayout(false);
+            this.GrpEngravingControls.ResumeLayout(false);
+            this.GrpPicture.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.PictureBox)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -265,6 +344,12 @@
         private System.Windows.Forms.NumericUpDown NumBurningTime;
         private System.Windows.Forms.Button BtnSetBurningTime;
         private System.Windows.Forms.GroupBox GrpBurningTime;
+        private System.Windows.Forms.GroupBox GrpEngravingControls;
+        private System.Windows.Forms.Button BtnEngrave;
+        private System.Windows.Forms.Button BtnEraseMachineMemory;
+        private System.Windows.Forms.Button BtnLoadPicture;
+        private System.Windows.Forms.GroupBox GrpPicture;
+        private System.Windows.Forms.PictureBox PictureBox;
     }
 }
 
