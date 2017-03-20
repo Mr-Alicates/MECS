@@ -81,12 +81,7 @@ namespace MECS.Core.Engraving
         {
 
         }
-
-        public void SendImage(string pathToImage)
-        {
-
-        }
-
+        
         public void SendImage(Stream imageStream)
         {
         }

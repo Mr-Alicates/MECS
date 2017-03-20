@@ -64,6 +64,7 @@
     <Compile Include="Engraving\MockEngraver.cs" />
     <Compile Include="Engraving\NejeDk8KzConstants.cs" />
     <Compile Include="Engraving\NejeDk8KzEngraver.cs" />
+    <Compile Include="Images\ImageHelper.cs" />
     <Compile Include="IoC\CoreUnityExtension.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

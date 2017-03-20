@@ -169,11 +169,6 @@ namespace MECS.Core.Engraving
             Thread.Sleep(NejeDk8KzConstants.SleepTime);
         }
 
-        public void SendImage(string pathToImage)
-        {
-            SendImage(File.OpenRead(pathToImage));
-        }
-
         public decimal GetMinimumBurningTime()
         {
             return NejeDk8KzConstants.MinimumIntensity;

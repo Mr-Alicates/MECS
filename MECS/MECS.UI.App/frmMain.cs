@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 using System.IO;
 using System.IO.Ports;
@@ -12,6 +13,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using MECS.Core.Contracts;
 using MECS.Core.Engraving;
+using MECS.Core.Images;
 using Microsoft.Practices.Unity;
 
 namespace MECS.UI.App
@@ -20,6 +22,7 @@ namespace MECS.UI.App
     {
         private readonly IUnityContainer _unityContainer;
         private IEngraver _engraver;
+        private Image _pictureBeingProcessed;
 
         public FrmMain()
         {
@@ -133,7 +136,7 @@ namespace MECS.UI.App
 
         private void EngravePicture(object sender, EventArgs e)
         {
-            if (PictureBox.Image == null || 
+            if (PbxToEngrave.Image == null || 
                 _engraver == null)
             {
                 return;
@@ -141,7 +144,7 @@ namespace MECS.UI.App
 
             using (var memorystream = new MemoryStream())
             {
-                PictureBox.Image.Save(memorystream, ImageFormat.Bmp);
+                PbxToEngrave.Image.Save(memorystream, ImageFormat.Bmp);
 
                 _engraver?.SendImage(memorystream);
             }
@@ -156,8 +159,34 @@ namespace MECS.UI.App
                 return;
             }
 
-            Image imageToLoad = new Bitmap(openFileDialog1.FileName);
+            _pictureBeingProcessed = new Bitmap(openFileDialog1.FileName);
 
+            RecalulatePictureBoxes(this, null);
+        }
+
+        private void RecalulatePictureBoxes(object sender, EventArgs e)
+        {
+            bool stretchPicture = ChkStretchToSize.Checked;
+            bool keepAspectRatio = ChkKeepAspectRatio.Checked;
+
+            if (stretchPicture)
+            {
+                PbxOriginal.Image = ImageHelper.EscaleImage(
+                    _pictureBeingProcessed, 
+                    PbxOriginal.Size.Width,
+                    PbxOriginal.Size.Height, 
+                    keepAspectRatio);
+            }
+            else
+            {
+                PbxOriginal.Image = _pictureBeingProcessed;
+            }
+
+            RecalculateEngravingPicture();
+        }
+
+        private void RecalculateEngravingPicture()
+        {
             Bitmap workingBitmap = new Bitmap(512, 512);
 
             using (Graphics graphics = Graphics.FromImage((Image)workingBitmap))
@@ -165,15 +194,16 @@ namespace MECS.UI.App
                 graphics.FillRegion(new SolidBrush(Color.White), new Region(new Rectangle(0, 0, 512, 512)));
 
                 graphics.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.HighQualityBicubic;
-                
-                graphics.DrawImage(imageToLoad, 0, 0);
+
+                graphics.DrawImage(PbxOriginal.Image, 0, 0);
             }
 
-            PictureBox.Image = workingBitmap.Clone(
+            PbxToEngrave.Image = workingBitmap.Clone(
                 new Rectangle(0, 0, workingBitmap.Width, workingBitmap.Height),
                 PixelFormat.Format1bppIndexed);
 
             BtnEngrave.Enabled = true;
         }
+
     }
 }

@@ -83,14 +83,7 @@ namespace MECS.Core.Contracts
         /// This erases the picture in the machine memory
         /// </summary>
         void EraseImage();
-
-        /// <summary>
-        /// This sends a new image to the machine memory. 
-        /// The image is rescaled and processed to the machine format.
-        /// </summary>
-        /// <param name="pathToImage"></param>
-        void SendImage(string pathToImage);
-
+        
         /// <summary>
         /// This sends a new image to the machine memory. 
         /// The image is rescaled and processed to the machine format.

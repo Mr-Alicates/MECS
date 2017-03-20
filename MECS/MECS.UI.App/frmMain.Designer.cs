@@ -49,14 +49,20 @@
             this.BtnEngrave = new System.Windows.Forms.Button();
             this.BtnEraseMachineMemory = new System.Windows.Forms.Button();
             this.GrpPicture = new System.Windows.Forms.GroupBox();
-            this.PictureBox = new System.Windows.Forms.PictureBox();
+            this.PbxOriginal = new System.Windows.Forms.PictureBox();
+            this.PbxToEngrave = new System.Windows.Forms.PictureBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.ChkStretchToSize = new System.Windows.Forms.CheckBox();
+            this.ChkKeepAspectRatio = new System.Windows.Forms.CheckBox();
             this.GrpConnection.SuspendLayout();
             this.GrpMovement.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NumBurningTime)).BeginInit();
             this.GrpBurningTime.SuspendLayout();
             this.GrpEngravingControls.SuspendLayout();
             this.GrpPicture.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.PictureBox)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.PbxOriginal)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.PbxToEngrave)).BeginInit();
             this.SuspendLayout();
             // 
             // GrpConnection
@@ -283,30 +289,85 @@
             // 
             // GrpPicture
             // 
-            this.GrpPicture.Controls.Add(this.PictureBox);
+            this.GrpPicture.Controls.Add(this.ChkKeepAspectRatio);
+            this.GrpPicture.Controls.Add(this.ChkStretchToSize);
+            this.GrpPicture.Controls.Add(this.label2);
+            this.GrpPicture.Controls.Add(this.label1);
+            this.GrpPicture.Controls.Add(this.PbxToEngrave);
+            this.GrpPicture.Controls.Add(this.PbxOriginal);
             this.GrpPicture.Enabled = false;
             this.GrpPicture.Location = new System.Drawing.Point(238, 12);
             this.GrpPicture.Name = "GrpPicture";
-            this.GrpPicture.Size = new System.Drawing.Size(513, 527);
+            this.GrpPicture.Size = new System.Drawing.Size(1189, 538);
             this.GrpPicture.TabIndex = 4;
             this.GrpPicture.TabStop = false;
             this.GrpPicture.Text = "Picture to engrave";
             // 
-            // PictureBox
+            // PbxOriginal
             // 
-            this.PictureBox.Location = new System.Drawing.Point(6, 19);
-            this.PictureBox.MaximumSize = new System.Drawing.Size(500, 500);
-            this.PictureBox.MinimumSize = new System.Drawing.Size(500, 500);
-            this.PictureBox.Name = "PictureBox";
-            this.PictureBox.Size = new System.Drawing.Size(500, 500);
-            this.PictureBox.TabIndex = 0;
-            this.PictureBox.TabStop = false;
+            this.PbxOriginal.Location = new System.Drawing.Point(6, 32);
+            this.PbxOriginal.MaximumSize = new System.Drawing.Size(500, 500);
+            this.PbxOriginal.MinimumSize = new System.Drawing.Size(500, 500);
+            this.PbxOriginal.Name = "PbxOriginal";
+            this.PbxOriginal.Size = new System.Drawing.Size(500, 500);
+            this.PbxOriginal.TabIndex = 0;
+            this.PbxOriginal.TabStop = false;
+            // 
+            // PbxToEngrave
+            // 
+            this.PbxToEngrave.Location = new System.Drawing.Point(512, 32);
+            this.PbxToEngrave.MaximumSize = new System.Drawing.Size(500, 500);
+            this.PbxToEngrave.MinimumSize = new System.Drawing.Size(500, 500);
+            this.PbxToEngrave.Name = "PbxToEngrave";
+            this.PbxToEngrave.Size = new System.Drawing.Size(500, 500);
+            this.PbxToEngrave.TabIndex = 1;
+            this.PbxToEngrave.TabStop = false;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(6, 16);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(77, 13);
+            this.label1.TabIndex = 2;
+            this.label1.Text = "Original picture";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(509, 16);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(94, 13);
+            this.label2.TabIndex = 2;
+            this.label2.Text = "Picture to engrave";
+            // 
+            // ChkStretchToSize
+            // 
+            this.ChkStretchToSize.AutoSize = true;
+            this.ChkStretchToSize.Location = new System.Drawing.Point(1018, 19);
+            this.ChkStretchToSize.Name = "ChkStretchToSize";
+            this.ChkStretchToSize.Size = new System.Drawing.Size(150, 17);
+            this.ChkStretchToSize.TabIndex = 3;
+            this.ChkStretchToSize.Text = "Scale picture to 500 x 500";
+            this.ChkStretchToSize.UseVisualStyleBackColor = true;
+            this.ChkStretchToSize.CheckStateChanged += new System.EventHandler(this.RecalulatePictureBoxes);
+            // 
+            // ChkKeepAspectRatio
+            // 
+            this.ChkKeepAspectRatio.AutoSize = true;
+            this.ChkKeepAspectRatio.Location = new System.Drawing.Point(1018, 42);
+            this.ChkKeepAspectRatio.Name = "ChkKeepAspectRatio";
+            this.ChkKeepAspectRatio.Size = new System.Drawing.Size(109, 17);
+            this.ChkKeepAspectRatio.TabIndex = 3;
+            this.ChkKeepAspectRatio.Text = "Keep aspect ratio";
+            this.ChkKeepAspectRatio.UseVisualStyleBackColor = true;
+            this.ChkKeepAspectRatio.CheckStateChanged += new System.EventHandler(this.RecalulatePictureBoxes);
             // 
             // FrmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(757, 542);
+            this.ClientSize = new System.Drawing.Size(1439, 635);
             this.Controls.Add(this.GrpPicture);
             this.Controls.Add(this.GrpEngravingControls);
             this.Controls.Add(this.GrpBurningTime);
@@ -321,7 +382,9 @@
             this.GrpBurningTime.ResumeLayout(false);
             this.GrpEngravingControls.ResumeLayout(false);
             this.GrpPicture.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.PictureBox)).EndInit();
+            this.GrpPicture.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.PbxOriginal)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.PbxToEngrave)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -349,7 +412,12 @@
         private System.Windows.Forms.Button BtnEraseMachineMemory;
         private System.Windows.Forms.Button BtnLoadPicture;
         private System.Windows.Forms.GroupBox GrpPicture;
-        private System.Windows.Forms.PictureBox PictureBox;
+        private System.Windows.Forms.PictureBox PbxOriginal;
+        private System.Windows.Forms.PictureBox PbxToEngrave;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.CheckBox ChkKeepAspectRatio;
+        private System.Windows.Forms.CheckBox ChkStretchToSize;
     }
 }
 
