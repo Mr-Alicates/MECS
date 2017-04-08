@@ -62,17 +62,17 @@ namespace MECS.Core.Engraving
 
         }
 
-        public void Restart()
+        public void RestartMachine()
         {
 
         }
 
-        public void Pause()
+        public void PauseEngraving()
         {
             
         }
 
-        public void Start()
+        public void StartEngraving()
         {
 
         }
@@ -82,7 +82,7 @@ namespace MECS.Core.Engraving
 
         }
         
-        public void SendImage(Stream imageStream)
+        public void SendImage(byte[] image)
         {
         }
 

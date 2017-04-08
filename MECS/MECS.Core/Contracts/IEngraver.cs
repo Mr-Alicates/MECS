@@ -67,29 +67,29 @@ namespace MECS.Core.Contracts
         /// <summary>
         /// This aborts whatever the machine was doing and restarts it.
         /// </summary>
-        void Restart();
+        void RestartMachine();
 
         /// <summary>
         /// This pauses the engraving
         /// </summary>
-        void Pause();
+        void PauseEngraving();
 
         /// <summary>
         /// This makes the machine to start engraving
         /// </summary>
-        void Start();
+        void StartEngraving();
 
         /// <summary>
         /// This erases the picture in the machine memory
         /// </summary>
         void EraseImage();
-        
+
         /// <summary>
         /// This sends a new image to the machine memory. 
         /// The image is rescaled and processed to the machine format.
         /// </summary>
-        /// <param name="imageStream"></param>
-        void SendImage(Stream imageStream);
+        /// <param name="image"></param>
+        void SendImage(byte[] image);
 
         /// <summary>
         /// This retrieves the minimum burning time of the engraver

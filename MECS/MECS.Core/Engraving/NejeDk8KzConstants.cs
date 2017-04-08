@@ -13,6 +13,8 @@ namespace MECS.Core.Engraving
     /// </summary>
     public static class NejeDk8KzConstants
     {
+        ///https://github.com/Na1w/pyneje/blob/master/doc/neje-serial-protocol.txt
+
         /// <summary>
         /// This indicates the minimum value for engraving intensity
         /// </summary>

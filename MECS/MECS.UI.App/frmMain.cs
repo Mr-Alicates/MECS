@@ -134,20 +134,28 @@ namespace MECS.UI.App
             _engraver?.EraseImage();
         }
 
-        private void EngravePicture(object sender, EventArgs e)
+        private void SendImageToMachine(object sender, EventArgs e)
         {
-            if (PbxToEngrave.Image == null || 
-                _engraver == null)
+            if (PbxToEngrave.Image == null ||
+                    _engraver == null)
             {
                 return;
             }
 
-            using (var memorystream = new MemoryStream())
+            byte[] image = new byte[32830];
+            
+            using (var memorystream = new MemoryStream(image))
             {
                 PbxToEngrave.Image.Save(memorystream, ImageFormat.Bmp);
-
-                _engraver?.SendImage(memorystream);
             }
+
+            _engraver?.SendImage(image);
+        }
+
+        private void EngravePicture(object sender, EventArgs e)
+        {
+            SetBurningTime(sender, e);
+            _engraver.StartEngraving();
         }
 
         private void LoadPicture(object sender, EventArgs e)
@@ -204,6 +212,5 @@ namespace MECS.UI.App
 
             BtnEngrave.Enabled = true;
         }
-
     }
 }
