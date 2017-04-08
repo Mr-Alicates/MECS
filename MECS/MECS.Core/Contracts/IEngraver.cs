@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using MECS.Core.Engraving;
 
 namespace MECS.Core.Contracts
 {
@@ -77,7 +78,7 @@ namespace MECS.Core.Contracts
         /// <summary>
         /// This makes the machine to start engraving
         /// </summary>
-        void StartEngraving();
+        IEnumerable<EngraverPosition> StartEngraving();
 
         /// <summary>
         /// This erases the picture in the machine memory

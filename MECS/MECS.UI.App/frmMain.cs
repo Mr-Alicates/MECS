@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
@@ -156,7 +157,12 @@ namespace MECS.UI.App
         private void EngravePicture(object sender, EventArgs e)
         {
             SetBurningTime(sender, e);
-            _engraver.StartEngraving();
+            IEnumerable<EngraverPosition> positions = _engraver.StartEngraving();
+
+            foreach (var position in positions)
+            {
+                Debug.WriteLine($"X:{position.X} Y:{position.Y}");
+            }
         }
 
         private void LoadPicture(object sender, EventArgs e)

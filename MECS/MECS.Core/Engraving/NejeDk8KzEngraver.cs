@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Imaging;
@@ -89,7 +90,7 @@ namespace MECS.Core.Engraving
             _serialComm.Write(NejeDk8KzConstants.PauseCommand);
         }
 
-        public void StartEngraving()
+        public IEnumerable<EngraverPosition> StartEngraving()
         {
             _serialComm.Write(NejeDk8KzConstants.StartCommand);
 
@@ -99,26 +100,30 @@ namespace MECS.Core.Engraving
                 
                 if (response == NejeDk8KzConstants.EngravingFinishedResponse)
                 {
-                    Debug.WriteLine($"Read machine response {response} is engravingFinished");
-                    return;
+                    //Read machine response is engravingFinished
+                    break;
                 }
 
                 if (response == NejeDk8KzConstants.PositionUpdatedResponse)
                 {
-                    Debug.WriteLine($"Read machine response {response} is position update");
+                    //Read machine response is position update
 
                     byte[] bytes = _serialComm.ReadMany(4);
 
                     var x = bytes[0] * 100 + bytes[1];
                     var y = bytes[2] * 100 + bytes[3];
-
-                    Debug.WriteLine($"X:{x} Y:{y}");
+                    
+                    yield return new EngraverPosition()
+                    {
+                        X = x,
+                        Y = y
+                    };
                 }
                 else
                 {
-                    Debug.WriteLine($"Read machine response {response} is unexpected response");
+                    //Read machine response is unexpected response
                     //Unexpected response, abort!
-                    return;
+                    break;
                 }
 
             }
@@ -131,7 +136,6 @@ namespace MECS.Core.Engraving
             //before we generate the image and send it to it.
             Thread.Sleep(NejeDk8KzConstants.SleepTime);
         }
-        
 
         public void SendImage(byte[] image)
         {

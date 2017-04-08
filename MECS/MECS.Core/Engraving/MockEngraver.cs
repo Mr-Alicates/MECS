@@ -72,9 +72,9 @@ namespace MECS.Core.Engraving
             
         }
 
-        public void StartEngraving()
+        public IEnumerable<EngraverPosition> StartEngraving()
         {
-
+            return new List<EngraverPosition>();
         }
 
         public void EraseImage()

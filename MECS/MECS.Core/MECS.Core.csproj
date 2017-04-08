@@ -61,6 +61,7 @@
     <Compile Include="Contracts\IEngraver.cs" />
     <Compile Include="Contracts\IEngraverFactory.cs" />
     <Compile Include="Contracts\ISerialComm.cs" />
+    <Compile Include="Engraving\EngraverPosition.cs" />
     <Compile Include="Engraving\MockEngraver.cs" />
     <Compile Include="Engraving\NejeDk8KzConstants.cs" />
     <Compile Include="Engraving\NejeDk8KzEngraver.cs" />
