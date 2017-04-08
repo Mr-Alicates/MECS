@@ -23,6 +23,7 @@ namespace MECS.UI.App
         private readonly IUnityContainer _unityContainer;
         private IEngraver _engraver;
         private Image _pictureBeingProcessed;
+        private Image _pictureToMachine;
 
         public FrmMain()
         {
@@ -146,7 +147,7 @@ namespace MECS.UI.App
             
             using (var memorystream = new MemoryStream(image))
             {
-                PbxToEngrave.Image.Save(memorystream, ImageFormat.Bmp);
+                _pictureToMachine.Save(memorystream, ImageFormat.Bmp);
             }
 
             _engraver?.SendImage(image);
@@ -203,12 +204,20 @@ namespace MECS.UI.App
 
                 graphics.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.HighQualityBicubic;
 
-                graphics.DrawImage(PbxOriginal.Image, 0, 0);
+                Image img = (Image) PbxOriginal.Image.Clone();
+
+                img.RotateFlip(RotateFlipType.Rotate180FlipX);
+
+                graphics.DrawImage(img, 0, 0);
             }
 
-            PbxToEngrave.Image = workingBitmap.Clone(
+            _pictureToMachine = workingBitmap.Clone(
                 new Rectangle(0, 0, workingBitmap.Width, workingBitmap.Height),
                 PixelFormat.Format1bppIndexed);
+
+            PbxToEngrave.Image = (Image) _pictureToMachine.Clone();
+            PbxToEngrave.Image.RotateFlip(RotateFlipType.Rotate180FlipX);
+
 
             BtnEngrave.Enabled = true;
         }
