@@ -182,7 +182,8 @@ namespace MECS.UI.App
                     prgEngravingProgress.Value = position.Y;
                 }
 
-                txtMachineStatus.Text = "Engraving";
+                prgEngravingProgress.Value = prgEngravingProgress.Maximum;
+                txtMachineStatus.Text = "Engraved";
             });
         }
 
