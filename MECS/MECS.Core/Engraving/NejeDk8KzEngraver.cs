@@ -117,9 +117,8 @@ namespace MECS.Core.Engraving
                 else
                 {
                     Debug.WriteLine($"Read machine response {response} is unexpected response");
-                    ////Unexpected response, abort!
-                    //RestartMachine();
-                    //throw new InvalidOperationException($"Received unexpected response: {response}");
+                    //Unexpected response, abort!
+                    return;
                 }
 
             }
