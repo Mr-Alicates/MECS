@@ -28,6 +28,9 @@ namespace MECS.UI.App
 
         public FrmMain()
         {
+            //I need this to be able to modify controls from other thread
+            CheckForIllegalCrossThreadCalls = false;
+
             _unityContainer = ContainerBuilder.BuildContainer();
             InitializeComponent();
         }
@@ -131,9 +134,9 @@ namespace MECS.UI.App
             _engraver.SetBurningTime(NumBurningTime.Value);
         }
 
-        private void EraseMachineMemory(object sender, EventArgs e)
+        private void PauseEngraving(object sender, EventArgs e)
         {
-            _engraver?.EraseImage();
+            _engraver?.PauseEngraving();
         }
 
         private void SendImageToMachine(object sender, EventArgs e)
@@ -144,25 +147,43 @@ namespace MECS.UI.App
                 return;
             }
 
-            byte[] image = new byte[32830];
-            
-            using (var memorystream = new MemoryStream(image))
+            Task.Run(() =>
             {
-                _pictureToMachine.Save(memorystream, ImageFormat.Bmp);
-            }
+                txtMachineStatus.Text = "Sending";
 
-            _engraver?.SendImage(image);
+                byte[] image = new byte[32830];
+
+                using (var memorystream = new MemoryStream(image))
+                {
+                    _pictureToMachine.Save(memorystream, ImageFormat.Bmp);
+                }
+
+                _engraver?.SendImage(image);
+
+                txtMachineStatus.Text = "Sent";
+            });
         }
 
         private void EngravePicture(object sender, EventArgs e)
         {
             SetBurningTime(sender, e);
-            IEnumerable<EngraverPosition> positions = _engraver.StartEngraving();
 
-            foreach (var position in positions)
+            Task.Run(() =>
             {
-                Debug.WriteLine($"X:{position.X} Y:{position.Y}");
-            }
+                txtMachineStatus.Text = "Engraving";
+
+                IEnumerable<EngraverPosition> positions = _engraver.StartEngraving();
+
+                foreach (var position in positions)
+                {
+                    txtXPosition.Text = position.X.ToString();
+                    txtYPosition.Text = position.Y.ToString();
+
+                    prgEngravingProgress.Value = position.Y;
+                }
+
+                txtMachineStatus.Text = "Engraving";
+            });
         }
 
         private void LoadPicture(object sender, EventArgs e)
@@ -197,11 +218,6 @@ namespace MECS.UI.App
                 PbxOriginal.Image = _pictureBeingProcessed;
             }
 
-            RecalculateEngravingPicture();
-        }
-
-        private void RecalculateEngravingPicture()
-        {
             Bitmap workingBitmap = new Bitmap(512, 512);
 
             using (Graphics graphics = Graphics.FromImage((Image)workingBitmap))
@@ -210,7 +226,7 @@ namespace MECS.UI.App
 
                 graphics.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.HighQualityBicubic;
 
-                Image img = (Image) PbxOriginal.Image.Clone();
+                Image img = (Image)PbxOriginal.Image.Clone();
 
                 img.RotateFlip(RotateFlipType.Rotate180FlipX);
 
@@ -221,11 +237,23 @@ namespace MECS.UI.App
                 new Rectangle(0, 0, workingBitmap.Width, workingBitmap.Height),
                 PixelFormat.Format1bppIndexed);
 
-            PbxToEngrave.Image = (Image) _pictureToMachine.Clone();
+            PbxToEngrave.Image = (Image)_pictureToMachine.Clone();
             PbxToEngrave.Image.RotateFlip(RotateFlipType.Rotate180FlipX);
 
 
             BtnEngrave.Enabled = true;
+        }
+
+        private void Stop(object sender, EventArgs e)
+        {
+            Task.Run(() =>
+            {
+                _engraver.RestartMachine();
+                txtXPosition.Text = "";
+                txtYPosition.Text = "";
+                txtMachineStatus.Text = "";
+                prgEngravingProgress.Value = 0;
+            });
         }
     }
 }

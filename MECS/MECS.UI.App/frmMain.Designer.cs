@@ -48,17 +48,26 @@
             this.BtnLoadPicture = new System.Windows.Forms.Button();
             this.BtnEngrave = new System.Windows.Forms.Button();
             this.btnSendImageToMachine = new System.Windows.Forms.Button();
-            this.BtnEraseMachineMemory = new System.Windows.Forms.Button();
+            this.BtnPause = new System.Windows.Forms.Button();
             this.GrpPicture = new System.Windows.Forms.GroupBox();
-            this.ChkKeepAspectRatio = new System.Windows.Forms.CheckBox();
-            this.ChkStretchToSize = new System.Windows.Forms.CheckBox();
+            this.label4 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.PbxToEngrave = new System.Windows.Forms.PictureBox();
             this.PbxOriginal = new System.Windows.Forms.PictureBox();
+            this.ChkKeepAspectRatio = new System.Windows.Forms.CheckBox();
+            this.ChkStretchToSize = new System.Windows.Forms.CheckBox();
             this.grpPictureManipulation = new System.Windows.Forms.GroupBox();
-            this.label3 = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
+            this.grpMachineStatus = new System.Windows.Forms.GroupBox();
+            this.prgEngravingProgress = new System.Windows.Forms.ProgressBar();
+            this.label7 = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
+            this.txtYPosition = new System.Windows.Forms.TextBox();
+            this.txtXPosition = new System.Windows.Forms.TextBox();
+            this.txtMachineStatus = new System.Windows.Forms.TextBox();
+            this.btnStop = new System.Windows.Forms.Button();
             this.GrpConnection.SuspendLayout();
             this.GrpMovement.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NumBurningTime)).BeginInit();
@@ -68,6 +77,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.PbxToEngrave)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PbxOriginal)).BeginInit();
             this.grpPictureManipulation.SuspendLayout();
+            this.grpMachineStatus.SuspendLayout();
             this.SuspendLayout();
             // 
             // GrpConnection
@@ -250,10 +260,11 @@
             // 
             // GrpEngravingControls
             // 
+            this.GrpEngravingControls.Controls.Add(this.btnStop);
             this.GrpEngravingControls.Controls.Add(this.BtnLoadPicture);
             this.GrpEngravingControls.Controls.Add(this.BtnEngrave);
             this.GrpEngravingControls.Controls.Add(this.btnSendImageToMachine);
-            this.GrpEngravingControls.Controls.Add(this.BtnEraseMachineMemory);
+            this.GrpEngravingControls.Controls.Add(this.BtnPause);
             this.GrpEngravingControls.Enabled = false;
             this.GrpEngravingControls.Location = new System.Drawing.Point(12, 438);
             this.GrpEngravingControls.Name = "GrpEngravingControls";
@@ -266,7 +277,7 @@
             // 
             this.BtnLoadPicture.Location = new System.Drawing.Point(6, 19);
             this.BtnLoadPicture.Name = "BtnLoadPicture";
-            this.BtnLoadPicture.Size = new System.Drawing.Size(207, 23);
+            this.BtnLoadPicture.Size = new System.Drawing.Size(98, 23);
             this.BtnLoadPicture.TabIndex = 3;
             this.BtnLoadPicture.Text = "Load picture";
             this.BtnLoadPicture.UseVisualStyleBackColor = true;
@@ -293,15 +304,15 @@
             this.btnSendImageToMachine.UseVisualStyleBackColor = true;
             this.btnSendImageToMachine.Click += new System.EventHandler(this.SendImageToMachine);
             // 
-            // BtnEraseMachineMemory
+            // BtnPause
             // 
-            this.BtnEraseMachineMemory.Location = new System.Drawing.Point(6, 48);
-            this.BtnEraseMachineMemory.Name = "BtnEraseMachineMemory";
-            this.BtnEraseMachineMemory.Size = new System.Drawing.Size(65, 74);
-            this.BtnEraseMachineMemory.TabIndex = 1;
-            this.BtnEraseMachineMemory.Text = "Erase machine memory";
-            this.BtnEraseMachineMemory.UseVisualStyleBackColor = true;
-            this.BtnEraseMachineMemory.Click += new System.EventHandler(this.EraseMachineMemory);
+            this.BtnPause.Location = new System.Drawing.Point(6, 48);
+            this.BtnPause.Name = "BtnPause";
+            this.BtnPause.Size = new System.Drawing.Size(65, 74);
+            this.BtnPause.TabIndex = 1;
+            this.BtnPause.Text = "Pause engraving";
+            this.BtnPause.UseVisualStyleBackColor = true;
+            this.BtnPause.Click += new System.EventHandler(this.PauseEngraving);
             // 
             // GrpPicture
             // 
@@ -319,27 +330,23 @@
             this.GrpPicture.TabStop = false;
             this.GrpPicture.Text = "Picture to engrave";
             // 
-            // ChkKeepAspectRatio
+            // label4
             // 
-            this.ChkKeepAspectRatio.AutoSize = true;
-            this.ChkKeepAspectRatio.Location = new System.Drawing.Point(6, 40);
-            this.ChkKeepAspectRatio.Name = "ChkKeepAspectRatio";
-            this.ChkKeepAspectRatio.Size = new System.Drawing.Size(109, 17);
-            this.ChkKeepAspectRatio.TabIndex = 3;
-            this.ChkKeepAspectRatio.Text = "Keep aspect ratio";
-            this.ChkKeepAspectRatio.UseVisualStyleBackColor = true;
-            this.ChkKeepAspectRatio.CheckStateChanged += new System.EventHandler(this.RecalulatePictureBoxes);
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(938, 535);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(75, 13);
+            this.label4.TabIndex = 4;
+            this.label4.Text = "Machine Front";
             // 
-            // ChkStretchToSize
+            // label3
             // 
-            this.ChkStretchToSize.AutoSize = true;
-            this.ChkStretchToSize.Location = new System.Drawing.Point(6, 17);
-            this.ChkStretchToSize.Name = "ChkStretchToSize";
-            this.ChkStretchToSize.Size = new System.Drawing.Size(150, 17);
-            this.ChkStretchToSize.TabIndex = 3;
-            this.ChkStretchToSize.Text = "Scale picture to 500 x 500";
-            this.ChkStretchToSize.UseVisualStyleBackColor = true;
-            this.ChkStretchToSize.CheckStateChanged += new System.EventHandler(this.RecalulatePictureBoxes);
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(938, 16);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(74, 13);
+            this.label3.TabIndex = 3;
+            this.label3.Text = "Machine Rear";
             // 
             // label2
             // 
@@ -379,40 +386,127 @@
             this.PbxOriginal.TabIndex = 0;
             this.PbxOriginal.TabStop = false;
             // 
+            // ChkKeepAspectRatio
+            // 
+            this.ChkKeepAspectRatio.AutoSize = true;
+            this.ChkKeepAspectRatio.Location = new System.Drawing.Point(6, 40);
+            this.ChkKeepAspectRatio.Name = "ChkKeepAspectRatio";
+            this.ChkKeepAspectRatio.Size = new System.Drawing.Size(109, 17);
+            this.ChkKeepAspectRatio.TabIndex = 3;
+            this.ChkKeepAspectRatio.Text = "Keep aspect ratio";
+            this.ChkKeepAspectRatio.UseVisualStyleBackColor = true;
+            this.ChkKeepAspectRatio.CheckStateChanged += new System.EventHandler(this.RecalulatePictureBoxes);
+            // 
+            // ChkStretchToSize
+            // 
+            this.ChkStretchToSize.AutoSize = true;
+            this.ChkStretchToSize.Location = new System.Drawing.Point(6, 17);
+            this.ChkStretchToSize.Name = "ChkStretchToSize";
+            this.ChkStretchToSize.Size = new System.Drawing.Size(150, 17);
+            this.ChkStretchToSize.TabIndex = 3;
+            this.ChkStretchToSize.Text = "Scale picture to 500 x 500";
+            this.ChkStretchToSize.UseVisualStyleBackColor = true;
+            this.ChkStretchToSize.CheckStateChanged += new System.EventHandler(this.RecalulatePictureBoxes);
+            // 
             // grpPictureManipulation
             // 
             this.grpPictureManipulation.Controls.Add(this.ChkKeepAspectRatio);
             this.grpPictureManipulation.Controls.Add(this.ChkStretchToSize);
-            this.grpPictureManipulation.Location = new System.Drawing.Point(12, 572);
+            this.grpPictureManipulation.Location = new System.Drawing.Point(238, 572);
             this.grpPictureManipulation.Name = "grpPictureManipulation";
-            this.grpPictureManipulation.Size = new System.Drawing.Size(1247, 120);
+            this.grpPictureManipulation.Size = new System.Drawing.Size(1021, 123);
             this.grpPictureManipulation.TabIndex = 5;
             this.grpPictureManipulation.TabStop = false;
             this.grpPictureManipulation.Text = "Picture controls";
             // 
-            // label3
+            // grpMachineStatus
             // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(938, 16);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(74, 13);
-            this.label3.TabIndex = 3;
-            this.label3.Text = "Machine Rear";
+            this.grpMachineStatus.Controls.Add(this.prgEngravingProgress);
+            this.grpMachineStatus.Controls.Add(this.label7);
+            this.grpMachineStatus.Controls.Add(this.label6);
+            this.grpMachineStatus.Controls.Add(this.label5);
+            this.grpMachineStatus.Controls.Add(this.txtYPosition);
+            this.grpMachineStatus.Controls.Add(this.txtXPosition);
+            this.grpMachineStatus.Controls.Add(this.txtMachineStatus);
+            this.grpMachineStatus.Location = new System.Drawing.Point(12, 572);
+            this.grpMachineStatus.Name = "grpMachineStatus";
+            this.grpMachineStatus.Size = new System.Drawing.Size(220, 123);
+            this.grpMachineStatus.TabIndex = 6;
+            this.grpMachineStatus.TabStop = false;
+            this.grpMachineStatus.Text = "Machine Status";
             // 
-            // label4
+            // prgEngravingProgress
             // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(938, 535);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(75, 13);
-            this.label4.TabIndex = 4;
-            this.label4.Text = "Machine Front";
+            this.prgEngravingProgress.Location = new System.Drawing.Point(9, 96);
+            this.prgEngravingProgress.Maximum = 499;
+            this.prgEngravingProgress.Name = "prgEngravingProgress";
+            this.prgEngravingProgress.Size = new System.Drawing.Size(204, 17);
+            this.prgEngravingProgress.TabIndex = 7;
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(6, 74);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(53, 13);
+            this.label7.TabIndex = 1;
+            this.label7.Text = "Y position";
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(6, 22);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(37, 13);
+            this.label6.TabIndex = 1;
+            this.label6.Text = "Status";
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(6, 48);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(53, 13);
+            this.label5.TabIndex = 1;
+            this.label5.Text = "X position";
+            // 
+            // txtYPosition
+            // 
+            this.txtYPosition.Location = new System.Drawing.Point(114, 71);
+            this.txtYPosition.Name = "txtYPosition";
+            this.txtYPosition.Size = new System.Drawing.Size(100, 20);
+            this.txtYPosition.TabIndex = 0;
+            // 
+            // txtXPosition
+            // 
+            this.txtXPosition.Location = new System.Drawing.Point(114, 45);
+            this.txtXPosition.Name = "txtXPosition";
+            this.txtXPosition.Size = new System.Drawing.Size(100, 20);
+            this.txtXPosition.TabIndex = 0;
+            // 
+            // txtMachineStatus
+            // 
+            this.txtMachineStatus.Location = new System.Drawing.Point(114, 19);
+            this.txtMachineStatus.Name = "txtMachineStatus";
+            this.txtMachineStatus.Size = new System.Drawing.Size(100, 20);
+            this.txtMachineStatus.TabIndex = 0;
+            // 
+            // btnStop
+            // 
+            this.btnStop.Location = new System.Drawing.Point(110, 19);
+            this.btnStop.Name = "btnStop";
+            this.btnStop.Size = new System.Drawing.Size(103, 23);
+            this.btnStop.TabIndex = 4;
+            this.btnStop.Text = "Stop engraving";
+            this.btnStop.UseVisualStyleBackColor = true;
+            this.btnStop.Click += new System.EventHandler(this.Stop);
             // 
             // FrmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1266, 697);
+            this.ClientSize = new System.Drawing.Size(1266, 699);
+            this.Controls.Add(this.grpMachineStatus);
             this.Controls.Add(this.grpPictureManipulation);
             this.Controls.Add(this.GrpPicture);
             this.Controls.Add(this.GrpEngravingControls);
@@ -433,6 +527,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.PbxOriginal)).EndInit();
             this.grpPictureManipulation.ResumeLayout(false);
             this.grpPictureManipulation.PerformLayout();
+            this.grpMachineStatus.ResumeLayout(false);
+            this.grpMachineStatus.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -457,7 +553,7 @@
         private System.Windows.Forms.GroupBox GrpBurningTime;
         private System.Windows.Forms.GroupBox GrpEngravingControls;
         private System.Windows.Forms.Button BtnEngrave;
-        private System.Windows.Forms.Button BtnEraseMachineMemory;
+        private System.Windows.Forms.Button BtnPause;
         private System.Windows.Forms.Button BtnLoadPicture;
         private System.Windows.Forms.GroupBox GrpPicture;
         private System.Windows.Forms.PictureBox PbxOriginal;
@@ -470,6 +566,15 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.GroupBox grpPictureManipulation;
+        private System.Windows.Forms.GroupBox grpMachineStatus;
+        private System.Windows.Forms.TextBox txtYPosition;
+        private System.Windows.Forms.TextBox txtXPosition;
+        private System.Windows.Forms.TextBox txtMachineStatus;
+        private System.Windows.Forms.ProgressBar prgEngravingProgress;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Button btnStop;
     }
 }
 

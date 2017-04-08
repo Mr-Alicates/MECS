@@ -15,7 +15,7 @@ namespace MECS.Core.Communication
     /// </summary>
     public class SerialComm : ISerialComm
     {
-        private const int SleepTimeAfterCommands = 3000;
+        private const int SleepTimeAfterCommands = 1000;
         private const int ReadTimeout = 30000;
         
         private SerialPort _port;
