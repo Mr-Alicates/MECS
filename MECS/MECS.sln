@@ -9,7 +9,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MECS.Core.Tests", "MECS.Cor
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{64BE552E-4128-43B2-88FE-5DE1DA897F9A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MECS.Console.App", "MECS.Console.App\MECS.Console.App.csproj", "{04035C48-5DAD-4D79-8316-1C2F24038553}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MECS.UI.App", "MECS.UI.App\MECS.UI.App.csproj", "{FB511376-63E1-45F0-96A8-36E8605E9E8D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -25,10 +25,10 @@ Global
 		{3BAC78D6-7021-41B0-BCA8-6E1BD77C5F7D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3BAC78D6-7021-41B0-BCA8-6E1BD77C5F7D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3BAC78D6-7021-41B0-BCA8-6E1BD77C5F7D}.Release|Any CPU.Build.0 = Release|Any CPU
-		{04035C48-5DAD-4D79-8316-1C2F24038553}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{04035C48-5DAD-4D79-8316-1C2F24038553}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{04035C48-5DAD-4D79-8316-1C2F24038553}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{04035C48-5DAD-4D79-8316-1C2F24038553}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FB511376-63E1-45F0-96A8-36E8605E9E8D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FB511376-63E1-45F0-96A8-36E8605E9E8D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FB511376-63E1-45F0-96A8-36E8605E9E8D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FB511376-63E1-45F0-96A8-36E8605E9E8D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

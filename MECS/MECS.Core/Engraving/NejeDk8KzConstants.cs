@@ -13,6 +13,8 @@ namespace MECS.Core.Engraving
     /// </summary>
     public static class NejeDk8KzConstants
     {
+        ///https://github.com/Na1w/pyneje/blob/master/doc/neje-serial-protocol.txt
+
         /// <summary>
         /// This indicates the minimum value for engraving intensity
         /// </summary>
@@ -26,7 +28,7 @@ namespace MECS.Core.Engraving
         /// <summary>
         /// This is the time to wait after sending an erase command or an image
         /// </summary>
-        public const int SleepTime = 1500;
+        public const int SleepTime = 3000;
 
         #region ConnectionParameters
 
