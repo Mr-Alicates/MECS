@@ -14,6 +14,8 @@ namespace MECS.Core.IoC
     {
         protected override void Initialize()
         {
+            Container.RegisterType<IEngraverFactory, EngraverFactory>();
+
             Container.RegisterType<IEngraver, NejeDk8KzEngraver>();
             Container.RegisterType<ISerialComm, SerialComm>();
         }

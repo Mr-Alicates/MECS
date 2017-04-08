@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // La información general de un ensamblado se controla mediante el siguiente 
 // conjunto de atributos. Cambie estos valores de atributo para modificar la información
 // asociada con un ensamblado.
-[assembly: AssemblyTitle("MECS.Console.App")]
+[assembly: AssemblyTitle("MECS.UI.App")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("MECS.Console.App")]
+[assembly: AssemblyProduct("MECS.UI.App")]
 [assembly: AssemblyCopyright("Copyright ©  2017")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // El siguiente GUID sirve como id. de typelib si este proyecto se expone a COM.
-[assembly: Guid("04035c48-5dad-4d79-8316-1c2f24038553")]
+[assembly: Guid("fb511376-63e1-45f0-96a8-36e8605e9e8d")]
 
 // La información de versión de un ensamblado consta de los cuatro valores siguientes:
 //

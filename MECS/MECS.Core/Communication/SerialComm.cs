@@ -16,7 +16,7 @@ namespace MECS.Core.Communication
     public class SerialComm : ISerialComm
     {
         private const int SleepTimeAfterCommands = 1000;
-        private const int ReadTimeout = 5000;
+        private const int ReadTimeout = 30000;
         
         private SerialPort _port;
 
@@ -73,7 +73,7 @@ namespace MECS.Core.Communication
             _port.Dispose();
             //This sleep seems necessary so the serial port is properly closed. 
             //If not, the engraver will need to be unplugged and plugged again to be responsive
-            Thread.Sleep(1000);
+            Thread.Sleep(SleepTimeAfterCommands);
         }
     }
 }

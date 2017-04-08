@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
@@ -78,42 +80,52 @@ namespace MECS.Core.Engraving
             _serialComm.Write(NejeDk8KzConstants.PreviewCommand);
         }
         
-        public void Restart()
+        public void RestartMachine()
         {
             _serialComm.Write(NejeDk8KzConstants.RestartCommand);
         }
 
-        public void Pause()
+        public void PauseEngraving()
         {
             _serialComm.Write(NejeDk8KzConstants.PauseCommand);
         }
 
-        public void Start()
+        public IEnumerable<EngraverPosition> StartEngraving()
         {
             _serialComm.Write(NejeDk8KzConstants.StartCommand);
 
             while (true)
             {
                 var response = _serialComm.ReadOne();
-
+                
                 if (response == NejeDk8KzConstants.EngravingFinishedResponse)
                 {
+                    //Read machine response is engravingFinished
                     break;
                 }
 
-                if (response != NejeDk8KzConstants.PositionUpdatedResponse)
+                if (response == NejeDk8KzConstants.PositionUpdatedResponse)
                 {
+                    //Read machine response is position update
+
+                    byte[] bytes = _serialComm.ReadMany(4);
+
+                    var x = bytes[0] * 100 + bytes[1];
+                    var y = bytes[2] * 100 + bytes[3];
+                    
+                    yield return new EngraverPosition()
+                    {
+                        X = x,
+                        Y = y
+                    };
+                }
+                else
+                {
+                    //Read machine response is unexpected response
                     //Unexpected response, abort!
-                    Restart();
-                    throw new InvalidOperationException($"Received unexpected response: {response}");
+                    break;
                 }
 
-                byte[] bytes = _serialComm.ReadMany(4);
-
-                var x = bytes[0] * 100 + bytes[1];
-                var y = bytes[2] * 100 + bytes[3];
-
-                Console.WriteLine($"X:{x} Y:{y}");
             }
         }
 
@@ -125,55 +137,33 @@ namespace MECS.Core.Engraving
             Thread.Sleep(NejeDk8KzConstants.SleepTime);
         }
 
-        private byte[] GenerateImage(Stream imageStream)
-        {
-            var image = new Bitmap(imageStream);
-            image.RotateFlip(RotateFlipType.RotateNoneFlipY);
-
-            Bitmap workingBitmap = new Bitmap(512, 512);
-
-            using (Graphics graphics = Graphics.FromImage((Image)workingBitmap))
-            {
-                graphics.FillRegion(new SolidBrush(Color.White), new Region(new Rectangle(0, 0, 512, 512)));
-
-                graphics.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.HighQualityBicubic;
-
-                //TODO: Find the correct transformation for the image
-                //TODO: Resize images over 500 x 500
-                //TODO: Test if 512 x 512 images can be used
-                graphics.DrawImage(image,0,0);
-            }
-
-            byte[] byteArray = new byte[32830];
-
-            using (MemoryStream memoryStream = new MemoryStream(byteArray))
-            {
-                var blackWhite = workingBitmap.Clone(
-                    new Rectangle(0, 0, workingBitmap.Width, workingBitmap.Height), 
-                    PixelFormat.Format1bppIndexed);
-
-                blackWhite.Save(memoryStream, ImageFormat.Bmp);
-            }
-
-            return byteArray;
-        }
-
-        public void SendImage(string pathToImage)
+        public void SendImage(byte[] image)
         {
             EraseImage();
-
-            byte[] image = GenerateImage(File.OpenRead(pathToImage));
 
             _serialComm.Write(image);
             //This sleep seems necessary to allow the machine to process the image
             Thread.Sleep(NejeDk8KzConstants.SleepTime);
+
+            //This allows the carving area to be previewed before the actual engraving
+            //Restart();
         }
 
-        public void SetBurningTime(byte intensity)
+        public decimal GetMinimumBurningTime()
+        {
+            return NejeDk8KzConstants.MinimumIntensity;
+        }
+
+        public decimal GetMaximumBurningTime()
+        {
+            return NejeDk8KzConstants.MaximumIntensity;
+        }
+
+        public void SetBurningTime(decimal intensity)
         {
             intensity = Math.Max(NejeDk8KzConstants.MinimumIntensity, Math.Min(intensity, NejeDk8KzConstants.MaximumIntensity));
             
-            _serialComm.Write(intensity);
+            _serialComm.Write((byte) intensity);
         }
         
         public void Dispose()

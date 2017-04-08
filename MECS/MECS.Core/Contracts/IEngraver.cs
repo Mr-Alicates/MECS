@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using MECS.Core.Engraving;
 
 namespace MECS.Core.Contracts
 {
@@ -61,22 +63,22 @@ namespace MECS.Core.Contracts
         /// Higher means deeper engraving or burning.
         /// </summary>
         /// <param name="intensity"></param>
-        void SetBurningTime(byte intensity);
+        void SetBurningTime(decimal intensity);
 
         /// <summary>
         /// This aborts whatever the machine was doing and restarts it.
         /// </summary>
-        void Restart();
+        void RestartMachine();
 
         /// <summary>
         /// This pauses the engraving
         /// </summary>
-        void Pause();
+        void PauseEngraving();
 
         /// <summary>
         /// This makes the machine to start engraving
         /// </summary>
-        void Start();
+        IEnumerable<EngraverPosition> StartEngraving();
 
         /// <summary>
         /// This erases the picture in the machine memory
@@ -87,7 +89,19 @@ namespace MECS.Core.Contracts
         /// This sends a new image to the machine memory. 
         /// The image is rescaled and processed to the machine format.
         /// </summary>
-        /// <param name="pathToImage"></param>
-        void SendImage(string pathToImage);
+        /// <param name="image"></param>
+        void SendImage(byte[] image);
+
+        /// <summary>
+        /// This retrieves the minimum burning time of the engraver
+        /// </summary>
+        /// <returns></returns>
+        decimal GetMinimumBurningTime();
+
+        /// <summary>
+        /// This retrieves the maximum burning time of the engraver
+        /// </summary>
+        /// <returns></returns>
+        decimal GetMaximumBurningTime();
     }
 }
