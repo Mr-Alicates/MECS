@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using MECS.Core.IoC;
-using Microsoft.Practices.Unity;
+using Unity;
 
 namespace MECS.UI.App
 {

@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 using MECS.Core.Communication;
 using MECS.Core.Contracts;
 using MECS.Core.Engraving;
-using Microsoft.Practices.Unity;
+using Unity;
+using Unity.Extension;
 
 namespace MECS.Core.IoC
 {

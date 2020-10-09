@@ -15,7 +15,7 @@ using System.Windows.Forms;
 using MECS.Core.Contracts;
 using MECS.Core.Engraving;
 using MECS.Core.Images;
-using Microsoft.Practices.Unity;
+using Unity;
 
 namespace MECS.UI.App
 {
