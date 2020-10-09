@@ -1,26 +1,21 @@
 ﻿using System;
+using System.Collections.Generic;
+using MECS.Core.Communication;
 using MECS.Core.Contracts;
-using Unity;
 
 namespace MECS.Core.Engraving
 {
     public class EngraverFactory : IEngraverFactory
     {
-        private readonly IUnityContainer _unityContainer;
-
-        public EngraverFactory(IUnityContainer unityContainer)
+        private Dictionary<Type, Func<IEngraver>> EngraverBuilders = new Dictionary<Type, Func<IEngraver>>()
         {
-            if (unityContainer == null)
-            {
-                throw new ArgumentNullException(nameof(unityContainer));
-            }
-
-            _unityContainer = unityContainer;
-        }
+            {typeof(MockEngraver), () => new MockEngraver() },
+            {typeof(NejeDk8KzEngraver), () => new NejeDk8KzEngraver(new SerialComm()) },
+        };
 
         public IEngraver Build(Type driverType, string comPort)
         {
-            IEngraver engraver = _unityContainer.Resolve(driverType) as IEngraver;
+            IEngraver engraver = EngraverBuilders[driverType]();
 
             if (engraver == null)
             {

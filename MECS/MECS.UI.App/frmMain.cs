@@ -9,13 +9,12 @@ using System.Windows.Forms;
 using MECS.Core.Contracts;
 using MECS.Core.Engraving;
 using MECS.Core.Images;
-using Unity;
 
 namespace MECS.UI.App
 {
     public partial class FrmMain : Form
     {
-        private readonly IUnityContainer _unityContainer;
+        private EngraverFactory _engraverFactory;
         private IEngraver _engraver;
         private Image _pictureBeingProcessed;
         private Image _pictureToMachine;
@@ -25,8 +24,9 @@ namespace MECS.UI.App
             //I need this to be able to modify controls from other thread
             CheckForIllegalCrossThreadCalls = false;
 
-            _unityContainer = ContainerBuilder.BuildContainer();
             InitializeComponent();
+
+            _engraverFactory = new EngraverFactory();
         }
 
         private void SetConnnectionStatus(bool connected)
@@ -70,9 +70,7 @@ namespace MECS.UI.App
 
             string comPort = CmbAvailablePorts.SelectedItem as string;
 
-            IEngraverFactory engraverFactory = _unityContainer.Resolve<IEngraverFactory>();
-
-            _engraver = engraverFactory.Build(driverType, comPort);
+            _engraver = _engraverFactory.Build(driverType, comPort);
 
             SetConnnectionStatus(true);
         }
