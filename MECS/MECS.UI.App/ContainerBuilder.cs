@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using MECS.Core.IoC;
+﻿using MECS.Core.IoC;
 using Unity;
 
 namespace MECS.UI.App
