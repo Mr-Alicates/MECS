@@ -203,9 +203,9 @@ namespace MECS.UI.App
             if (stretchPicture)
             {
                 PbxOriginal.Image = ImageHelper.EscaleImage(
-                    _pictureBeingProcessed, 
-                    PbxOriginal.Size.Width,
-                    PbxOriginal.Size.Height, 
+                    _pictureBeingProcessed,
+                    512,
+                    512, 
                     keepAspectRatio);
             }
             else
@@ -232,9 +232,22 @@ namespace MECS.UI.App
                 new Rectangle(0, 0, workingBitmap.Width, workingBitmap.Height),
                 PixelFormat.Format1bppIndexed);
 
-            PbxToEngrave.Image = (Image)_pictureToMachine.Clone();
-            PbxToEngrave.Image.RotateFlip(RotateFlipType.Rotate180FlipX);
+            Bitmap workingBitmap2 = new Bitmap(512, 512);
 
+            using (Graphics graphics = Graphics.FromImage((Image)workingBitmap2))
+            {
+                graphics.FillRegion(new SolidBrush(Color.White), new Region(new Rectangle(0, 0, 512, 512)));
+
+                graphics.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.HighQualityBicubic;
+
+                Image img = (Image)PbxOriginal.Image.Clone();
+
+                graphics.DrawImage(img, 0, 0);
+            }
+
+            PbxToEngrave.Image = workingBitmap2.Clone(
+                new Rectangle(0, 0, workingBitmap.Width, workingBitmap.Height),
+                PixelFormat.Format1bppIndexed);
 
             BtnEngrave.Enabled = true;
         }
