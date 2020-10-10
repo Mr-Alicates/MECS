@@ -318,7 +318,6 @@
             // 
             // BtnEngrave
             // 
-            this.BtnEngrave.Enabled = false;
             this.BtnEngrave.Location = new System.Drawing.Point(173, 55);
             this.BtnEngrave.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.BtnEngrave.Name = "BtnEngrave";

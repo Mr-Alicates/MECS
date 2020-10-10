@@ -1,23 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Drawing;
-using System.Drawing.Imaging;
-using System.IO;
-using System.IO.Ports;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using MECS.Core.Contracts;
 using MECS.Core.Engraving;
-using MECS.Core.Images;
 
 namespace MECS.UI.App
 {
     public partial class FrmMain : Form
     {
-        private EngraverFactory _engraverFactory;
-        private IEngraver _engraver;
-        private Image _pictureBeingProcessed;
-        private Image _pictureToMachine;
+        private EngravingService _engravingService = new EngravingService();
 
         public FrmMain()
         {
@@ -25,8 +16,6 @@ namespace MECS.UI.App
             CheckForIllegalCrossThreadCalls = false;
 
             InitializeComponent();
-
-            _engraverFactory = new EngraverFactory();
         }
 
         private void SetConnnectionStatus(bool connected)
@@ -40,8 +29,8 @@ namespace MECS.UI.App
 
             if (connected)
             {
-                NumBurningTime.Minimum = _engraver.GetMinimumBurningTime();
-                NumBurningTime.Maximum = _engraver.GetMaximumBurningTime();
+                NumBurningTime.Minimum = _engravingService.GetMinimumBurningTime();
+                NumBurningTime.Maximum = _engravingService.GetMaximumBurningTime();
                 NumBurningTime.Value = NumBurningTime.Minimum;
             }
         }
@@ -49,13 +38,11 @@ namespace MECS.UI.App
         private void FormLoad(object sender, EventArgs e)
         {
             //Fill connection combos
-            CmbAvailableDrivers.Items.Add(typeof(NejeDk8KzEngraver));
-            CmbAvailableDrivers.Items.Add(typeof(MockEngraver));
+            CmbAvailableDrivers.Items.Clear();
+            CmbAvailablePorts.Items.Clear();
 
-            foreach (var port in SerialPort.GetPortNames())
-            {
-                CmbAvailablePorts.Items.Add(port);
-            }
+            CmbAvailableDrivers.Items.AddRange(_engravingService.GetAvaliableDrivers());
+            CmbAvailablePorts.Items.AddRange(_engravingService.GetAvailablePorts());
         }
 
         private void ConnectToEngraver(object sender, EventArgs e)
@@ -70,14 +57,14 @@ namespace MECS.UI.App
 
             string comPort = CmbAvailablePorts.SelectedItem as string;
 
-            _engraver = _engraverFactory.Build(driverType, comPort);
+            _engravingService.ConnectToEngraver(driverType, comPort);
 
             SetConnnectionStatus(true);
         }
 
         private void DisconnectEngraver(object sender, EventArgs e)
         {
-            _engraver.Dispose();
+            _engravingService.DisconnectFromEngraver();
 
             SetConnnectionStatus(false);
         }
@@ -86,55 +73,54 @@ namespace MECS.UI.App
 
         private void MoveToOrigin(object sender, EventArgs e)
         {
-            _engraver?.MoveToOrigin();
+            _engravingService?.MoveToOrigin();
         }
 
         private void MoveToCenter(object sender, EventArgs e)
         {
-            _engraver?.MoveToCenter();
+            _engravingService?.MoveToCenter();
         }
 
         private void Preview(object sender, EventArgs e)
         {
-            _engraver?.Preview();
+            _engravingService?.Preview();
         }
 
         private void MoveUp(object sender, EventArgs e)
         {
-            _engraver?.MoveUp();
+            _engravingService?.MoveUp();
         }
 
         private void MoveLeft(object sender, EventArgs e)
         {
-            _engraver?.MoveLeft();
+            _engravingService?.MoveLeft();
         }
 
         private void MoveDown(object sender, EventArgs e)
         {
-            _engraver?.MoveDown();
+            _engravingService?.MoveDown();
         }
 
         private void MoveRight(object sender, EventArgs e)
         {
-            _engraver?.MoveRight();
+            _engravingService?.MoveRight();
         }
 
         #endregion
 
         private void SetBurningTime(object sender, EventArgs e)
         {
-            _engraver.SetBurningTime(NumBurningTime.Value);
+            _engravingService.SetBurningTime(NumBurningTime.Value);
         }
 
         private void PauseEngraving(object sender, EventArgs e)
         {
-            _engraver?.PauseEngraving();
+            _engravingService?.PauseEngraving();
         }
 
         private void SendImageToMachine(object sender, EventArgs e)
         {
-            if (PbxToEngrave.Image == null ||
-                    _engraver == null)
+            if (PbxToEngrave.Image == null)
             {
                 return;
             }
@@ -143,14 +129,7 @@ namespace MECS.UI.App
             {
                 txtMachineStatus.Text = "Sending";
 
-                byte[] image = new byte[32830];
-
-                using (var memorystream = new MemoryStream(image))
-                {
-                    _pictureToMachine.Save(memorystream, ImageFormat.Bmp);
-                }
-
-                _engraver?.SendImage(image);
+                _engravingService.SendImageToMachine();
 
                 txtMachineStatus.Text = "Sent";
             });
@@ -164,7 +143,7 @@ namespace MECS.UI.App
             {
                 txtMachineStatus.Text = "Engraving";
 
-                IEnumerable<EngraverPosition> positions = _engraver.StartEngraving();
+                IEnumerable<EngraverPosition> positions = _engravingService.EngravePicture();
 
                 foreach (var position in positions)
                 {
@@ -188,77 +167,33 @@ namespace MECS.UI.App
                 return;
             }
 
-            _pictureBeingProcessed = new Bitmap(openFileDialog1.FileName);
+            _engravingService.LoadOriginalPicture(openFileDialog1.FileName);
 
             RecalulatePictureBoxes(this, null);
         }
+
 
         private void RecalulatePictureBoxes(object sender, EventArgs e)
         {
             bool stretchPicture = ChkStretchToSize.Checked;
             bool keepAspectRatio = ChkKeepAspectRatio.Checked;
 
-            if (stretchPicture)
-            {
-                PbxOriginal.Image = ImageHelper.EscaleImage(
-                    _pictureBeingProcessed,
-                    512,
-                    512, 
-                    keepAspectRatio);
-            }
-            else
-            {
-                PbxOriginal.Image = _pictureBeingProcessed;
-            }
+            _engravingService.CalculatePictureToBeProcessed(stretchPicture, keepAspectRatio);
 
-            Bitmap workingBitmap = new Bitmap(512, 512);
-
-            using (Graphics graphics = Graphics.FromImage((Image)workingBitmap))
-            {
-                graphics.FillRegion(new SolidBrush(Color.White), new Region(new Rectangle(0, 0, 512, 512)));
-
-                graphics.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.HighQualityBicubic;
-
-                Image img = (Image)PbxOriginal.Image.Clone();
-
-                img.RotateFlip(RotateFlipType.Rotate180FlipX);
-
-                graphics.DrawImage(img, 0, 0);
-            }
-
-            _pictureToMachine = workingBitmap.Clone(
-                new Rectangle(0, 0, workingBitmap.Width, workingBitmap.Height),
-                PixelFormat.Format1bppIndexed);
-
-            Bitmap workingBitmap2 = new Bitmap(512, 512);
-
-            using (Graphics graphics = Graphics.FromImage((Image)workingBitmap2))
-            {
-                graphics.FillRegion(new SolidBrush(Color.White), new Region(new Rectangle(0, 0, 512, 512)));
-
-                graphics.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.HighQualityBicubic;
-
-                Image img = (Image)PbxOriginal.Image.Clone();
-
-                graphics.DrawImage(img, 0, 0);
-            }
-
-            PbxToEngrave.Image = workingBitmap2.Clone(
-                new Rectangle(0, 0, workingBitmap.Width, workingBitmap.Height),
-                PixelFormat.Format1bppIndexed);
-
-            BtnEngrave.Enabled = true;
+            PbxOriginal.Image = _engravingService.GetOriginalImage();
+            PbxToEngrave.Image = _engravingService.GetWorkingImage();
         }
 
         private void Stop(object sender, EventArgs e)
         {
+            txtXPosition.Text = "";
+            txtYPosition.Text = "";
+            txtMachineStatus.Text = "";
+            prgEngravingProgress.Value = 0;
+
             Task.Run(() =>
             {
-                _engraver.RestartMachine();
-                txtXPosition.Text = "";
-                txtYPosition.Text = "";
-                txtMachineStatus.Text = "";
-                prgEngravingProgress.Value = 0;
+                _engravingService.RestartMachine();
             });
         }
     }
